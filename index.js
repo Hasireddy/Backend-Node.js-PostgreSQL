@@ -33,7 +33,7 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
     console.log(req.body);
-    pool.query("INSERT INTO users (first_name,last_name,age) VALUES ($1,$2,$3);", [req.body.first_name, req.body.last_name, req.body.age])
+    pool.query("INSERT INTO users (first_name,last_name,age) VALUES ($1,$2,$3);", [req.body.first_name, req.body.last_name, req.body.age]) //The names given in the frontend should access only with the backend names.
         .then(result => res.json(result.rows))
         .catch((err) => console.log(err));
     // .then(result => res.json("data inserted"))
@@ -42,16 +42,16 @@ app.post("/users", (req, res) => {
 
 });
 
-// app.put("/users/:id", (req, res) => {
-//     const { id } = req.params; //req.params.id
-//     const { first_name, last_name, age } = req.body;
+app.put("/users/:id", (req, res) => {
+    const { id } = req.params; //req.params.id
+    const { first_name, last_name, age } = req.body;
 
-//     // .query("UPDATE users set first_name=$1,last_name=$2,age=$3 where id=$4;", [req.body.first_name, req.body.last_name, req.body.age])// parameters without destructuring.
-//     pool
-//         .query("UPDATE users set first_name=$1,last_name=$2,age=$3 where id=$4;", [first_name, last_name, age, id]) //parameters with destructuring.
-//         .then(result => res.json(result.rows))
-//         .catch((err) => console.log(err));
-// });
+    // .query("UPDATE users set first_name=$1,last_name=$2,age=$3 where id=$4;", [req.body.first_name, req.body.last_name, req.body.age])// parameters without destructuring.
+    pool
+        .query("UPDATE users set first_name=$1,last_name=$2,age=$3 where id=$4;", [first_name, last_name, age, id]) //parameters with destructuring.
+        .then(result => res.json(result.rows))
+        .catch((err) => console.log(err));
+});
 
 app.delete("/users/:id", (req, res) => {
     const { id } = req.params; //req.params.id
